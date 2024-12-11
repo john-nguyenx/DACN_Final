@@ -1,3 +1,4 @@
+import 'package:dacn/Screen/ChatAi.dart';
 import 'package:dacn/Screen/Diet.dart';
 import 'package:dacn/Screen/Heart.dart';
 import 'package:dacn/Screen/Home.dart';
@@ -55,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
          onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatScreen()));
           },
           child: const Icon(Icons.message),  
       )

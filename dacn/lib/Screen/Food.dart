@@ -26,7 +26,7 @@ class _CalorieScreenState extends State<CalorieScreen> {
   };
 
   Future<void> _getFoods() async {
-    final String url = 'http://10.17.18.247:8080/api/get_diet';
+    const String url = 'http://192.168.1.7:8080/api/get_diet';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       setState(() {
