@@ -37,7 +37,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
   void _addFood(BuildContext context) async {
   final selectedFood = await Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => const CalorieScreen()),
+    MaterialPageRoute(builder: (context) => CalorieScreen()),
   );
 
   if (selectedFood != null && selectedFood is Map<String, dynamic>) {

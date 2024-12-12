@@ -1,8 +1,16 @@
+import 'package:dacn/Screen/Main.dart';
+import 'package:dacn/Widget/messLogin.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../Provider/userProvider.dart';
+
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -19,6 +27,8 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _isLoading = false;
+  final loginWidget = LoginWidget();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -52,13 +62,50 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  Future <void> _signIn() async {
-    if (_formKey.currentState!.validate() && ! _connectionStatus.contains(ConnectivityResult.none)) {
-      _formKey.currentState!.save();
-      Navigator.pushReplacementNamed(context, '/home');
-      print('Signed in');
-    }else{
-      print('Invalid credentials');
+  Future<void> _signIn() async {
+    if (_formKey.currentState!.validate()) {
+      String email = _emailController.text.trim();
+      String password = _passwordController.text.trim();
+
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        final response = await http.post(
+          Uri.parse('http://192.168.1.7:8080/api/login'),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({'email': email, 'password': password}),
+        );
+
+        if (response.statusCode == 200) {
+          final jsonResponse = json.decode(response.body);
+          final userData = jsonResponse['user'];
+          final String token = jsonResponse['token'];
+
+          Provider.of<UserProvider>(context, listen: false).setUserDetails(
+            name: userData['name'],
+            email: userData['email'],
+            image: userData['image'],
+            token: token,
+          );
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MainScreen()),
+          );
+        } else {
+          final errorResponse = json.decode(response.body);
+          String errorMessage = errorResponse['message'] ?? 'Đăng nhập thất bại';
+          loginWidget.showSuccessMessage(errorMessage, context);
+        }
+      } catch (e) {
+        loginWidget.showSuccessMessage('Đã xảy ra lỗi', context);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
   @override

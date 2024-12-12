@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
 
+import 'package:dacn/Provider/weatherProvider.dart';
+import 'package:dacn/Widget/weather_Widget.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -21,39 +25,63 @@ class _HomeScreenState extends State<HomeScreen> {
 
   
 >>>>>>> parent of 42ce239 (Server)
+=======
+  
+
+  @override
+  void initState() {
+    super.initState();
+    // Load weather data after the first frame is built.
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchWeatherData();
+    });
+  }
+  
+  Future<void> _fetchWeatherData() async {
+    final weatherProvider = Provider.of<WeatherProvider>(context, listen: false);
+    await weatherProvider.fetchWeather(); // Fetch weather data from provider
+  }
+>>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(4.0),
-            child: CircleAvatar(
-              backgroundImage: NetworkImage('https://i.imgur.com/8Q6Zw6B.jpg'),
-              radius: 40,
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+    final weatherProvider = Provider.of<WeatherProvider>(context);
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: RefreshIndicator(
+        onRefresh: _fetchWeatherData, // Call fetchWeather when refreshed
+        child: ListView( // Use ListView to enable scrolling
           children: [
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(20),
+            // Weather Information
+            SizedBox(
+              height: 105,
+              child: Row(
+                children: [
+                  Center(
+                    child: weatherProvider.isLoading
+                      ? const CircularProgressIndicator(color: Color.fromARGB(255, 255, 0, 0))
+                      : weatherProvider.error != null
+                          ? Text(
+                              weatherProvider.error!,
+                              style: const TextStyle(color: Colors.red),
+                            )
+                          : weatherProvider.weatherData != null
+                              ? WeatherDetail(
+                                  weather: weatherProvider.weatherData!,
+                                )
+                              : const Text(
+                                  "Data Loading...",
+                                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                                ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-          ]
+          ],
         ),
-      )
-      ) 
+      ),
     );
   }
 }

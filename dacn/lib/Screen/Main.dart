@@ -16,12 +16,12 @@ class _MainScreenState extends State<MainScreen> {
 
   int _selectedIndex = 0;
 
-  static const List<Widget> _screen = <Widget>[
+  static final List<Widget> _screen = <Widget>[
     HomeScreen(),
-    StepsScreen(),
-    DietScreen(),
-    HeartRateScreen(),
-    ProfileScreen(),
+    const StepsScreen(),
+    const DietScreen(),
+    const HeartRateScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
