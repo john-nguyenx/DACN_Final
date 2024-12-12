@@ -9,7 +9,7 @@
 
 
     <application
-        android:label="dacn"
+        android:label="Health"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
