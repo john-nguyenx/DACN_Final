@@ -1,11 +1,6 @@
-import 'dart:convert';
-import 'package:dacn/Provider/userProvider.dart';
 import 'package:dacn/Screen/EditProfile.dart';
-import 'package:dacn/Model/user_model.dart';
 import 'package:dacn/Widget/User.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,73 +10,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  User? user;
-  bool _isLoading = true;
-
   @override
-  void initState() {
-    super.initState();
-    _getUserData();
-  }
-
-
-  Future<void> _getUserData() async {
-    const String url = 'http://192.168.1.7:8080/api/users/me'; // Adjust this as necessary
-
-    try {
-      final userToken = Provider.of<UserProvider>(context, listen: false).token;
-
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $userToken', // Include the token
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        setState(() {
-          user = User.fromJson(jsonData);   // Map to a User instance directly
-          _isLoading = false; // Stop loading
-        });
-      } else {
-        _showErrorSnackbar('Unable to fetch data: ${response.reasonPhrase}');
-        setState(() {
-          _isLoading = false; // Stop loading on error
-        });
-      }
-    } catch (error) {
-      print('Error fetching user data: $error');
-      _showErrorSnackbar('Error fetching user data: $error');
-      setState(() {
-        _isLoading = false; // Stop loading on error
-      });
-    }
-  }
-
-  void _showErrorSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
-
-  Future<void> _navigateToEditProfile() async {
-    if (user != null) {
-      final updatedUser = await Navigator.push<User>(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EditProfileScreen(user: user!)),
-      );
-
-      if (updatedUser != null) {
-        setState(() {
-          user = updatedUser; // Cập nhật thông tin người dùng
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,15 +107,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     icon: Icons.edit,
                     label: "Edit Profile",
                     onTap: () {
-                       _navigateToEditProfile;
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()));
                     },
                   ),
                   UserWidget.actionButton(
                     icon: Icons.logout,
                     label: "Log Out",
                     onTap: () {
-                      Provider.of<UserProvider>(context, listen: false).clearUserDetails();
-                      Navigator.pushReplacementNamed(context, '/login');
+                      Navigator.pushNamed(context, '/login');
                     },
                   ),
                 ],

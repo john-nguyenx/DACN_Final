@@ -3,7 +3,7 @@ class User {
   final String name;
   final String email;
   final String password; // Note: ensure this field is secure
-  final String toKen; // Make this nullable
+  final String? vToken; // Make this nullable
   final String image;
   final String role;
   final String address;
@@ -17,7 +17,7 @@ class User {
     required this.name,
     required this.email,
     required this.password,
-    required this.toKen,
+    this.vToken,
     required this.image,
     required this.role,
     required this.address,
@@ -33,7 +33,7 @@ class User {
       name: json['name'] ?? '',
       email: json['email'] ?? '',
       password: json['password'] ?? '',
-      toKen: json['toKen'] ?? '', // Handle null here
+      vToken: json['vToken'] ?? '', // Handle null here
       image: json['image'] ?? '',
       role: json['role'] ?? '',
       address: json['address'] ?? '',

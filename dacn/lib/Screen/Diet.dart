@@ -22,10 +22,6 @@ class _DietScreenState extends State<DietScreen> {
     _loadSavedTimes();
   }
 
-  
-
-
-
   @override
   void dispose() {
     super.dispose();
@@ -56,7 +52,6 @@ class _DietScreenState extends State<DietScreen> {
           meal.time = formattedTime;
           meal.calories = mealCalories; // Cập nhật lượng calo
         });
-
         // Hiển thị thông báo xác nhận
         showSnackbar(context, 'Đã lưu thời gian:', 'Thời gian: $formattedTime và Lượng calo: ${mealCalories.toStringAsFixed(0)} calo cho ${meal.name}');
       }
@@ -71,7 +66,6 @@ class _DietScreenState extends State<DietScreen> {
       for (var meal in meals) 
         meal.name: totalCalories > 0 ? (meal.calories / totalCalories) * 100 : 0.0,
     };
-
     return SizedBox(
       height: 250,
       child: PieChart(
@@ -155,7 +149,7 @@ class _DietScreenState extends State<DietScreen> {
         subtitle: Text(
           'Thời gian đã chọn: ${meal.time}\nLượng calo: ${meal.calories.toStringAsFixed(0)} calo',
         ),
-        onTap:() => Navigator.push(context, MaterialPageRoute(builder: (context) => CalorieScreen())),
+        onTap:() => Navigator.push(context, MaterialPageRoute(builder: (context) => const MealScreen())),
       ),
     );
   }
