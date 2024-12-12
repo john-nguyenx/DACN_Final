@@ -10,19 +10,16 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+<<<<<<< HEAD
+<<<<<<< HEAD
   @override
+=======
+>>>>>>> parent of 42ce239 (Server)
+=======
+>>>>>>> parent of 42ce239 (Server)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFF6A11CB),
-        title: const Text(
-          "User Profile",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -37,33 +34,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                child: const Column(
+                padding: const EdgeInsets.symmetric(vertical: 50),
+                child: Column(
                   children: [
                     // User Avatar
                     CircleAvatar(
-                      radius: 60,
+                      radius: 50,
                       backgroundColor: Colors.white,
-                      child: CircleAvatar(
-                        radius: 56,
+                      child: const CircleAvatar(
+                        radius: 46,
                         backgroundImage: NetworkImage(
                           'https://www.w3schools.com/w3images/avatar2.png', // Demo avatar URL
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
-                    Text(
-                      "John Doe",
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Hà Minh Công",
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    Text(
-                      "johndoe@email.com",
+                    const Text(
+                      "congha203@gmail.com",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: Colors.white70,
                       ),
                     ),
@@ -80,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Account Information",
+                    "Thông Tin Tài Khoản",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -88,14 +85,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  UserWidget.infoRow("Full Name", "John Doe"),
-                  UserWidget.infoRow("Email", "johndoe@email.com"),
-                  UserWidget.infoRow("Phone", "+1 123 456 789"),
-                  UserWidget.infoRow("Address", "123, Sunny Street, San Francisco"),
+                  Card(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.person, color: Color(0xFF6A11CB)),
+                      title: const Text("Họ Tên"),
+                      subtitle: const Text("Hà Minh Công"),
+                    ),
+                  ),
+                  Card(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.email, color: Color(0xFF6A11CB)),
+                      title: const Text("Email"),
+                      subtitle: const Text("congha203@gmail.com"),
+                    ),
+                  ),
+                  Card(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.phone, color: Color(0xFF6A11CB)),
+                      title: const Text("Số Điện Thoại"),
+                      subtitle: const Text("+ 123 456 789"),
+                    ),
+                  ),
+                  Card(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: ListTile(
+                      leading: const Icon(Icons.home, color: Color(0xFF6A11CB)),
+                      title: const Text("Địa Chỉ"),
+                      subtitle: const Text("160, Lê Văn Việt, TP Thủ Đức"),
+                    ),
+                  ),
                   const SizedBox(height: 30),
+
                   // Actions Section
                   const Text(
-                    "Actions",
+                    "Thao Tác",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -105,14 +131,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 10),
                   UserWidget.actionButton(
                     icon: Icons.edit,
-                    label: "Edit Profile",
+                    label: "Chỉnh Sửa Thông Tin",
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()));
                     },
                   ),
                   UserWidget.actionButton(
                     icon: Icons.logout,
-                    label: "Log Out",
+                    label: "Đăng Xuất",
                     onTap: () {
                       Navigator.pushNamed(context, '/login');
                     },

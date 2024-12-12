@@ -1,9 +1,17 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:dacn/Provider/calofood_provider.dart';
+=======
+>>>>>>> parent of 42ce239 (Server)
+=======
+>>>>>>> parent of 42ce239 (Server)
 import 'package:dacn/Screen/Forget.dart';
 import 'package:dacn/Screen/Main.dart';
 import 'package:dacn/Screen/SignIn.dart';
 import 'package:dacn/Screen/SignUp.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,6 +21,16 @@ void main() {
       child: MyApp(),
     ),
   );
+=======
+
+void main() {
+  runApp(MyApp());
+>>>>>>> parent of 42ce239 (Server)
+=======
+
+void main() {
+  runApp(MyApp());
+>>>>>>> parent of 42ce239 (Server)
 }
 
 class MyApp extends StatelessWidget {

@@ -9,6 +9,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+
+  
+>>>>>>> parent of 42ce239 (Server)
+=======
+
+
+  
+>>>>>>> parent of 42ce239 (Server)
 
   @override
   Widget build(BuildContext context) {
