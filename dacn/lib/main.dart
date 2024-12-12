@@ -1,9 +1,4 @@
 
-import 'package:dacn/Provider/calofood_provider.dart';
-
-
-import 'dart:io';
-
 import 'package:dacn/Provider/userProvider.dart';
 import 'package:dacn/Provider/weatherProvider.dart';
 
@@ -49,3 +44,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

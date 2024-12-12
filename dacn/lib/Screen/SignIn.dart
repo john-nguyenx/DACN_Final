@@ -28,6 +28,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isLoading = false;
+
   final loginWidget = LoginWidget();
   final _formKey = GlobalKey<FormState>();
 
@@ -89,6 +90,9 @@ class _SignInScreenState extends State<SignInScreen> {
             image: userData['image'],
             token: token,
           );
+
+          print(userData);
+          print(token);
 
           Navigator.pushReplacement(
             context,
