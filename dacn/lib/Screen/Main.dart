@@ -1,3 +1,4 @@
+import 'package:dacn/Screen/ChatAi.dart';
 import 'package:dacn/Screen/Diet.dart';
 import 'package:dacn/Screen/Heart.dart';
 import 'package:dacn/Screen/Home.dart';
@@ -17,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   static final List<Widget> _screen = <Widget>[
-    HomeScreen(),
+    const HomeScreen(),
     const StepsScreen(),
     const DietScreen(),
     const HeartRateScreen(),
@@ -55,6 +56,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
          onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
           },
           child: const Icon(Icons.message),  
       )
