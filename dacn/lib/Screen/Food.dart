@@ -47,7 +47,7 @@ class _CalorieScreenState extends State<CalorieScreen> {
           final typeName = typeMapping[food.type] ?? 'Khác';
           categorizedFoods.putIfAbsent(typeName, () => []).add({
             'name': food.name,
-            'calories': food.calories.toString(),
+            'calories': food.calories.toString(), // Ensure this matches with your model
             'protein': food.protein.toString(),
             'fat': food.fat.toString(),
             'fiber': food.fiber.toString(),
@@ -58,6 +58,8 @@ class _CalorieScreenState extends State<CalorieScreen> {
         categorizedFoods.forEach((_, foods) => allFoods.addAll(foods));
         filteredFoods = List.from(allFoods);
       });
+    } else {
+      print('Failed to load foods: ${response.statusCode}');
     }
   }
 
@@ -66,7 +68,7 @@ class _CalorieScreenState extends State<CalorieScreen> {
       filteredFoods = query.isEmpty
           ? List.from(allFoods)
           : allFoods
-              .where((food) => food['name']!.toLowerCase().contains(query.toLowerCase()))
+              .where((food) => food['name']?.toLowerCase().contains(query.toLowerCase()) ?? false)
               .toList();
     });
   }
@@ -120,14 +122,14 @@ class _CalorieScreenState extends State<CalorieScreen> {
           final food = filteredFoods[index];
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-           child: GestureDetector(
+            child: GestureDetector(
               onTap: () {
                 // Khi người dùng nhấn vào món ăn, quay lại và trả về dữ liệu món ăn đã chọn
                 Navigator.pop(
                   context,
                   {
                     'name': food['name']!,
-                    'calories': double.tryParse(food['calories']!) ?? 0,
+                    'calories': double.tryParse(food['calories'] ?? '0') ?? 0, // Ensure safe parsing
                   },
                 );
               },
@@ -141,7 +143,7 @@ class _CalorieScreenState extends State<CalorieScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Cal: ${food['calories']}/100g'),
+                        Text('Cal: ${food['calories'] ?? 'N/A'}/100g'), // Show N/A if calories is null
                         Text('Protein: ${food['protein']}g'),
                         Text('Fat: ${food['fat']}g'),
                         Text('Fiber: ${food['fiber']}g'),

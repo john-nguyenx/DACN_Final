@@ -88,10 +88,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
 Widget build(BuildContext context) {
-  final image = Provider.of<UserProvider>(context, listen: false).image;
-
   if (_isLoading) {
-    return const Center(child: CircularProgressIndicator()); // Loading state
+    return const Center(child: CircularProgressIndicator());
   }
 
   if (user == null) {

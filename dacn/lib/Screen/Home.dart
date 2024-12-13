@@ -1,3 +1,4 @@
+import 'package:dacn/Provider/userProvider.dart';
 import 'package:dacn/Provider/weatherProvider.dart';
 import 'package:dacn/Widget/weather_Widget.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final weatherProvider = Provider.of<WeatherProvider>(context);
+    final image = Provider.of<UserProvider>(context, listen: false).image;
     
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/image/logo.png', width: 50),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0),
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/image/User.jpg'),
+              backgroundImage:  image != null ? NetworkImage(image)  
+              : const AssetImage('assets/image/User.jpg'),
               radius: 30,
             ),
           ),

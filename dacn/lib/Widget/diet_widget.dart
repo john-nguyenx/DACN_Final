@@ -1,40 +1,94 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dacn/Screen/Meal.dart';
 
-class DietWidget {
-  static get meals => null;
+class DietItem extends StatelessWidget {
+  final String title;
+  final String description;
+  final IconData icon;
+  final DateTime selectedDate;
 
-  // Vẽ biểu đồ PieChart (FL Chart)
-  static Widget buildNutritionChart() {
-    final totalCalories = meals.fold(0.0, (sum, meal) => sum + meal.calories); // Tổng calo
+  const DietItem({
+    Key? key,
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.selectedDate,
+  }) : super(key: key);
 
-    final dataMap = {
-      for (var meal in meals) 
-        meal.name: totalCalories > 0 ? (meal.calories / totalCalories) * 100 : 0.0,
-    };
+  Future<double> loadTotalCalories(String mealKey) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String dateKey = selectedDate.toIso8601String().split("T")[0]; // formatted "YYYY-MM-DD"
+    return prefs.getDouble('${mealKey}_calories_$dateKey') ?? 0.0;
+  }
 
-    return SizedBox(
-      height: 250,
-      child: PieChart(
-        PieChartData(
-          sections: dataMap.entries.map((e) {
-            return PieChartSectionData(
-              color: e.key == "Buổi sáng"
-                  ? Colors.blue
-                  : e.key == "Buổi trưa"
-                      ? Colors.green
-                      : e.key == "Buổi chiều"
-                          ? Colors.orange
-                          : Colors.red,
-              value: e.value,
-              title: '${e.key}\n${e.value.toStringAsFixed(2)}%',
-              radius: 60,
-              titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
-            );
-          }).toList(),
-          sectionsSpace: 2,
-          centerSpaceRadius: 40
-        ),
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => MealSetupScreen(
+              mealKey: title,
+              selectedDate: selectedDate,
+            ),
+          ),
+        );
+      },
+      child: FutureBuilder<double>(
+        future: loadTotalCalories(title), // lấy tổng calo
+        builder: (context, snapshot) {
+          String timeText = 'Thời gian: Chưa chọn'; // Thay đổi theo yêu cầu của bạn
+          String calorieText = 'Calo: ${snapshot.connectionState == ConnectionState.waiting ? 'Đang load...' : snapshot.data?.toStringAsFixed(0) ?? '0'}';
+
+          return Container(
+            width: 150,
+            height: 150,
+            margin: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  blurRadius: 8.0,
+                  spreadRadius: 2.0,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, size: 50.0, color: Colors.blue),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  description,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  timeText, // Hiển thị thời gian
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                Text(
+                  calorieText, // Hiển thị tổng calo
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
