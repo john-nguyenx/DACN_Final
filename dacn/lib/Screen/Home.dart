@@ -1,3 +1,4 @@
+import 'package:dacn/Screen/EXscreen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -41,6 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
+            ElevatedButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const ExScreen()));
+            }, child: Text('Các bài tập sức khỏe'))
           ]
         ),
       )

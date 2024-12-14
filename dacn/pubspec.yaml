@@ -40,6 +40,9 @@ dependencies:
   shared_preferences: ^2.3.3
   fl_chart: ^0.69.2
   http: ^1.2.2
+  heart_bpm: ^2.0.0+0
+  camera: ^0.10.0+2
+  url_launcher: ^6.0.9
 
 dev_dependencies:
   flutter_test:

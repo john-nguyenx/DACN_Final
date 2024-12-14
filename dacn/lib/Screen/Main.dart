@@ -18,9 +18,9 @@ class _MainScreenState extends State<MainScreen> {
 
   static const List<Widget> _screen = <Widget>[
     HomeScreen(),
-    StepsScreen(),
-    DietScreen(),
     HeartRateScreen(),
+    DietScreen(),
+    StepsScreen(),
     ProfileScreen(),
   ];
 
