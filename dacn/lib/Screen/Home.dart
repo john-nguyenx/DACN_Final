@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 10),
               _buildActivityCard(stepsProvider),
               const SizedBox(height: 20),
-              
+              HomeWidget.buildButton(context),
               const SizedBox(height: 20),
               _buildChart(calorieProvider, stepsProvider),
             ],
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Card(
       elevation: 4,
       child: SizedBox(
-        height: 150,
+        height: 110,
         child: Center(
           child: weatherProvider.isLoading
               ? const CircularProgressIndicator(color: Color.fromARGB(255, 255, 0, 0))
@@ -150,13 +150,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return  Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 10),
-
       child: ListTile(
+        contentPadding: EdgeInsets.all(8),
         title: const Text('Số bước chân hiện tại:', 
-        style: TextStyle(fontSize: 16, color: Colors.black)),
+        style: TextStyle(fontSize: 18, color: Colors.black)),
         subtitle: Text('Current Steps: ${stepsProvider.stepData.currentSteps}', 
-        style: const TextStyle(fontSize: 14, color: Colors.black)),
-        trailing: const Icon(Icons.directions_run, color: Colors.green),
+        style: const TextStyle(fontSize: 16, color: Colors.black)),
+        trailing: const Icon(Icons.directions_run, color: Colors.green, size: 50,),
       ),
     );
   }
