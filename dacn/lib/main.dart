@@ -1,4 +1,6 @@
 
+import 'package:dacn/Provider/calofood_provider.dart';
+import 'package:dacn/Provider/steps_provider.dart';
 import 'package:dacn/Provider/userProvider.dart';
 import 'package:dacn/Provider/weatherProvider.dart';
 import 'package:dacn/Screen/Forget.dart';
@@ -18,10 +20,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => CalorieProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()), // Thêm UserProvider
         // ChangeNotifierProvider(create: (context) => BodyProvider()),
         ChangeNotifierProvider(create: (context) => WeatherProvider()),
-        // ChangeNotifierProvider(create: (context) => StepsProvider()),
+        ChangeNotifierProvider(create: (_) => StepsProvider()),
       ],
       child: MyApp(),
     ),
@@ -55,4 +58,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

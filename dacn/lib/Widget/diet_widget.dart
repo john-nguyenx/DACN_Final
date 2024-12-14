@@ -18,7 +18,7 @@ class DietItem extends StatelessWidget {
 
   Future<double> loadTotalCalories(String mealKey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String dateKey = selectedDate.toIso8601String().split("T")[0]; // formatted "YYYY-MM-DD"
+    String dateKey = selectedDate.toIso8601String().split("T")[0]; 
     return prefs.getDouble('${mealKey}_calories_$dateKey') ?? 0.0;
   }
 

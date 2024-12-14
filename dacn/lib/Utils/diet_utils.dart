@@ -1,3 +1,4 @@
+import 'package:dacn/Provider/calofood_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,23 +70,6 @@ Future<void> selectTime(BuildContext context, String key, Function(String) onTim
   }
 }
 
-// Chức năng kiểm tra thời gian hiện tại so với thời gian ăn đã lưu
-void checkCurrentTime(Map<String, String> selectedTimes, Function(String, String) showSnackbar) {
-  final now = TimeOfDay.now();
-  selectedTimes.forEach((key, value) {
-    if (value != 'Chưa chọn') {
-      final selectedTime = TimeOfDay(
-        hour: int.parse(value.split(':')[0]),
-        minute: int.parse(value.split(':')[1].split(' ')[0]),
-      );
-
-      if (now.hour == selectedTime.hour && now.minute == selectedTime.minute) {
-        showSnackbar('Tới giờ $key rồi!', 'Đã đến giờ ăn $key!');
-      }
-    }
-  });
-}
-
 class DietUtils {
   // Hiển thị snackbar
   static void showSnackbar(BuildContext context, String title, String message) {
@@ -101,6 +85,7 @@ class DietUtils {
   static Future<void> saveData(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);
+    
   }
 
   // Lấy dữ liệu từ SharedPreferences
@@ -108,6 +93,7 @@ class DietUtils {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
   }
+
 
   // Xóa dữ liệu từ SharedPreferences
   static Future<void> clearData(String key) async {
@@ -129,6 +115,7 @@ class DietUtils {
       double totalCaloForFood = (caloPer100g / 100) * quantityInGrams;
       totalCalories += totalCaloForFood;
     }
+    
     return totalCalories;
   }
 }
