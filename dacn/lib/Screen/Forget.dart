@@ -1,4 +1,7 @@
-import 'package:flutter/material.dart'; // Nhập thư viện Flutter
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -6,9 +9,57 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final _formKey = GlobalKey<FormState>(); // Khóa toàn cục cho form 
-  final _emailController = TextEditingController(); // Controller cho email
-  final _passwordController = TextEditingController(); // Controller cho mật khẩu (nếu cần)
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _resetPassword() async {
+
+    // Kiểm tra tính hợp lệ của Form trước khi gọi API
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Đang xử lý...')),
+      );
+
+      try {
+        final response =
+            await http.post(Uri.parse('http://192.168.1.7:8080/api/fogetpass'),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: json.encode({
+                  'email': _emailController.text,
+                  'newpassword': _passwordController.text,
+                }));
+
+        if (response.statusCode == 200) {
+          // Thành công, hiển thị thông báo
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Vui lòng xem mail để xác nhận mật khẩu!')),
+          );
+        } else {
+          final responseBody = jsonDecode(response.body);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                  responseBody['error'] ?? 'Lỗi đặt lại mật khẩu, vui lòng thử lại'),
+            ),
+          );
+        }
+      } catch (e) {
+        // Lỗi khi thực hiện yêu cầu (timeout, không có kết nối, v.v.)
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Lỗi: $e')),
+        );
+      }
+    } else {
+      // Nếu form không hợp lệ
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nhập đúng thông tin!')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
